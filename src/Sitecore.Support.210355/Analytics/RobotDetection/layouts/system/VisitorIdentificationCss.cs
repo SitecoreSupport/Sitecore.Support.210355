@@ -16,7 +16,9 @@ namespace Sitecore.Support.Analytics.RobotDetection.layouts.system
             Condition.Requires(e, "e").IsNotNull();
             base.OnInit(e);
             base.Response.ContentType = "text/css";
-            if (XdbSettings.Tracking.Enabled && Tracker.Current.Sampling.IsSampling() && Tracker.IsActive)
+            #region - changed order of if clauses
+            if (XdbSettings.Tracking.Enabled && Tracker.IsActive && Tracker.Current.Sampling.IsSampling())
+            #endregion
             {
                 Tracker.Current.CurrentPage.Cancel();
                 if (Tracker.Current.Interaction.PageCount != 1 && AnalyticsSettings.Robots.AutoDetect)
