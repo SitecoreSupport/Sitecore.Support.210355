@@ -8,7 +8,7 @@ using Sitecore.Xdb.Configuration;
 using System;
 using System.Web.UI;
 
-namespace Sitecore.Analytics.RobotDetection.layouts.system
+namespace Sitecore.Support.Analytics.RobotDetection.layouts.system
 {
     public class VisitorIdentificationCss : System.Web.UI.Page
     {
@@ -17,7 +17,9 @@ namespace Sitecore.Analytics.RobotDetection.layouts.system
             Assert.ArgumentNotNull(e, "e");
             base.OnInit(e);
             base.Response.ContentType = "text/css";
-            if (XdbSettings.Tracking.Enabled && Tracker.Current.Sampling.IsSampling() && Tracker.IsActive)
+            #region - changed order of if clauses
+            if (XdbSettings.Tracking.Enabled && Tracker.IsActive && Tracker.Current.Sampling.IsSampling())
+            #endregion
             {
                 Tracker.Current.CurrentPage.Cancel();
                 if (Tracker.Current.Interaction.PageCount != 1 && AnalyticsSettings.Robots.AutoDetect)
